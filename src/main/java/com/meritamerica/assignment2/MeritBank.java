@@ -1,7 +1,5 @@
 package com.meritamerica.assignment2;
 
-import java.util.*;
-
 public class MeritBank {
 
     private static AccountHolder[] accountHolders = new AccountHolder[0];
@@ -30,7 +28,7 @@ public class MeritBank {
     // TODO: 3/5/2021 getBestCDOffering 
     public static CDOffering getBestCDOffering(double depositAmount){
         if (cdOfferings.length == 0) return null;
-        double value = 0.0;
+        double value;
         double highestValue = 0.0;
         int index = 0;
         for (int i = 0; i < cdOfferings.length; i++){
