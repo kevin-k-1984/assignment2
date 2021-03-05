@@ -1,53 +1,39 @@
 package com.meritamerica.assignment2;
 
-import java.util.Arrays;
-import java.util.HashMap;
-
 public class AccountHolder {
 
-    // Instance variables created for the class, for account information to be processed by methods.
+    //region InstanceVariables
+
     private String firstName;
     private String middleName;
     private String lastName;
     private String SSN;
-//    private final CheckingAccount checkingAccount;
-//    private final SavingsAccount savingsAccount;
-    private HashMap<String, CheckingAccount> checkingAccounts;
-    private HashMap<String, SavingsAccount> savingsAccounts;
+    private CheckingAccount[] checkingAccounts;
+    private SavingsAccount[] savingsAccounts;
+    private CDAccount[] cdAccounts;
 
-    //  This method allows to be called with no information passed in.
-    public AccountHolder() {
-        this.firstName = "";
-        this.middleName = "";
-        this.lastName = "";
-        this.SSN = "";
-        this.checkingAccounts = new HashMap<>();
-        this.savingsAccounts = new HashMap<>();
+    //endregion
 
-//        this.checkingAccount = new CheckingAccount();
-//        this.savingsAccount = new SavingsAccount();
-    }
+    //region Constructors
 
     /* This method allows for AccountHolder to be defined with parameters passed in.
      * A new object of CheckingAccount and SavingsAccount are created with opening balance parameters passed in.
      */
-    public AccountHolder(String firstName, String middleName, String lastName, String SSN,
-                         double checkingAccountOpeningBalance, double savingsAccountOpeningBalance) {
+    public AccountHolder(String firstName, String middleName, String lastName, String SSN) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.SSN = SSN;
-        this.checkingAccounts = new HashMap<>();
-        this.savingsAccounts = new HashMap<>();
-//        this.checkingAccount = new CheckingAccount(checkingAccountOpeningBalance);
-//        this.savingsAccount = new SavingsAccount(savingsAccountOpeningBalance);
-
+        this.checkingAccounts = new CheckingAccount[0];
+        this.savingsAccounts = new SavingsAccount[0];
+        this.cdAccounts = new CDAccount[0];
     }
 
-    public AccountHolder(String sam, String john, String houston, String s) {
-    }
+    //endregion
 
-    //This method allows the firstName variable to be called from another class.
+    //region Basic Info Getters/Setters
+
+    // This method allows the firstName variable to be called from another class.
     public String getFirstName() {
         return this.firstName;
     }
@@ -87,48 +73,154 @@ public class AccountHolder {
         this.SSN = ssn;
     }
 
-    //This method allows the CheckingAccount variable to be called from another class.
-    public CheckingAccount getCheckingAccount() {
-        return this.checkingAccount;
-    }
+    //endregion
 
-    //This method allows the SavingsAccount variable to be called from another class.
-    public SavingsAccount getSavingsAccount() {
-        return this.savingsAccount;
-    }
+    //region CheckingAccount Methods
 
-    //This method concatenates the information and prints as a string.
-    public String toString() {
-        return "Name: " + this.firstName + " " + this.middleName + " " + this.lastName + "\n" +
-                "SSN: " + this.SSN + "\n" +
-                this.checkingAccount.toString() + this.savingsAccount.toString();
-    }
+    public CheckingAccount addCheckingAccount(double openingBalance) {
+        if (this.getCheckingBalance() + this.getSavingsBalance() + openingBalance < 250000)
+        {
+            CheckingAccount[] temp = new CheckingAccount[this.checkingAccounts.length + 1];
 
-    public void addCDAccount(CDAccount cdAccount) {
-    }
+            for (int i = 0; i < this.checkingAccounts.length; i++) temp[i] = this.checkingAccounts[i];
 
-    public CDAccount[] getCDAccounts() {
-    }
+            temp[temp.length - 1] = new CheckingAccount(openingBalance);
+            this.checkingAccounts = temp;
 
-    public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) {
+            return this.checkingAccounts[this.checkingAccounts.length - 1];
+        }
         return null;
     }
 
-    public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
+    public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount){
+        if (this.getCheckingBalance() + this.getSavingsBalance() + checkingAccount.getBalance() < 250000){
+            CheckingAccount[] temp = new CheckingAccount[this.checkingAccounts.length + 1];
+
+            for (int i = 0; i < this.checkingAccounts.length; i++) temp[i] = this.checkingAccounts[i];
+
+            temp[temp.length - 1] = checkingAccount;
+            this.checkingAccounts = temp;
+
+            return checkingAccount;
+        }
         return null;
+    }
+
+    public CheckingAccount[] getCheckingAccounts() {
+        return this.checkingAccounts;
+    }
+
+    public int getNumberOfCheckingAccounts(){
+        return this.checkingAccounts.length;
     }
 
     public double getCheckingBalance() {
-        return 0.0;
+        double result = 0.0;
+        for (CheckingAccount account: this.checkingAccounts){
+            result += account.getBalance();
+        }
+        return result;
+    }
+
+    //endregion
+
+    //region SavingsAccount Methods
+
+    public SavingsAccount addSavingsAccount(double openingBalance) {
+        if (this.getCheckingBalance() + this.getSavingsBalance() + openingBalance < 250000){
+            SavingsAccount[] temp = new SavingsAccount[this.savingsAccounts.length + 1];
+
+            for (int i = 0; i < this.savingsAccounts.length; i++) temp[i] = this.savingsAccounts[i];
+
+            temp[temp.length - 1] = new SavingsAccount(openingBalance);
+            this.savingsAccounts = temp;
+
+            return this.savingsAccounts[this.savingsAccounts.length - 1];
+        }
+        return null;
+    }
+
+    public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount){
+        if (this.getCheckingBalance() + this.getSavingsBalance() + savingsAccount.getBalance() < 250000){
+            SavingsAccount[] temp = new SavingsAccount[this.savingsAccounts.length + 1];
+
+            for (int i = 0; i < this.savingsAccounts.length; i++) temp[i] = this.savingsAccounts[i];
+
+            temp[temp.length - 1] = savingsAccount;
+            this.savingsAccounts = temp;
+
+            return this.savingsAccounts[this.savingsAccounts.length - 1];
+        }
+        return null;
+    }
+
+    public SavingsAccount[] getSavingsAccounts() {
+        return this.savingsAccounts;
+    }
+
+    public int getNumberOfSavingsAccounts(){
+        return this.savingsAccounts.length;
     }
 
     public double getSavingsBalance() {
-        return 0.0;
+        double result = 0.0;
+        for (SavingsAccount account: this.savingsAccounts){
+            result += account.getBalance();
+        }
+        return result;
     }
 
-    public Object getCheckingAccounts() {
+    //endregion
+
+    //region CDAccount Methods
+
+    public CDAccount addCDAccount(CDOffering cdOffering, int openingBalance) {
+        CDAccount[] temp = new CDAccount[this.cdAccounts.length + 1];
+
+        for (int i = 0; i < this.cdAccounts.length; i++) temp[i] = this.cdAccounts[i];
+
+        temp[temp.length - 1] = new CDAccount(cdOffering, openingBalance);
+        this.cdAccounts = temp;
+
+        return this.cdAccounts[this.cdAccounts.length - 1];
     }
 
-    public Object getSavingsAccounts() {
+    public CDAccount addCDAccount(CDAccount cdAccount) {
+        CDAccount[] temp = new CDAccount[this.cdAccounts.length + 1];
+
+        for (int i = 0; i < this.cdAccounts.length; i++) temp[i] = this.cdAccounts[i];
+
+        temp[temp.length - 1] = cdAccount;
+        this.cdAccounts = temp;
+
+        return this.cdAccounts[this.cdAccounts.length - 1];
+    }
+
+    public CDAccount[] getCDAccounts() {
+        return this.cdAccounts;
+    }
+
+    public int getNumberOfCDAccounts(){
+        return this.cdAccounts.length;
+    }
+
+    public double getCDBalance(){
+        double result = 0.0;
+        for (CDAccount account: this.cdAccounts){
+            result += account.getBalance();
+        }
+        return result;
+    }
+
+    //endregion
+
+    public double getCombinedBalance(){
+        return this.getCheckingBalance() + this.getSavingsBalance() + this.getCDBalance();
+    }
+
+    // TODO: 3/4/2021 toString
+    public String toString() {
+        return "Name: " + this.firstName + " " + this.middleName + " " + this.lastName + "\n" +
+                "SSN: " + this.SSN + "\n";
     }
 }

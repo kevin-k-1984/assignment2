@@ -6,21 +6,14 @@ public class BankAccount {
     private double balance;
     private double interestRate;
 
-    public BankAccount(){
-        this.accountNumber = MeritBank.getNextAccountNumber();
-        this.balance = 0;
-        this.interestRate = 0;
-    }
-
     BankAccount(double balance, double interestRate){
-        new BankAccount();
-        this.balance = balance;
-        this.interestRate = interestRate;
+        this(MeritBank.getNextAccountNumber(), balance, interestRate);
     }
 
     public BankAccount(long accountNumber, double balance, double interestRate){
-        new BankAccount(balance, interestRate);
         this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.interestRate = interestRate;
     }
 
     public long getAccountNumber(){
@@ -50,6 +43,4 @@ public class BankAccount {
     public double futureValue(int years){
         return this.balance * (Math.pow(1 + this.interestRate, years));
     }
-
-
 }
