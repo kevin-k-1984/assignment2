@@ -25,12 +25,13 @@ public class MeritBank {
         return MeritBank.cdOfferings;
     }
 
-    // TODO: 3/5/2021 getBestCDOffering 
     public static CDOffering getBestCDOffering(double depositAmount){
         if (cdOfferings.length == 0) return null;
+
         double value;
         double highestValue = 0.0;
         int index = 0;
+
         for (int i = 0; i < cdOfferings.length; i++){
             value = futureValue(depositAmount, cdOfferings[i].getInterestRate(), cdOfferings[i].getTerm());
             if (value > highestValue){
@@ -38,12 +39,39 @@ public class MeritBank {
                 index = i;
             }
         }
+
         return cdOfferings[index];
     }
 
-    // TODO: 3/4/2021 getSecondBestCDOffering
     public static CDOffering getSecondBestCDOffering(double depositAmount){
-        return null;
+        if (cdOfferings.length <= 1) return null;
+
+        double[] offeringValues = new double[cdOfferings.length];
+        int[] index = new int[cdOfferings.length];
+        double tempDouble;
+        int tempInt;
+
+        for (int i = 0; i < cdOfferings.length; i++){
+            offeringValues[i] = MeritBank.futureValue(depositAmount, cdOfferings[i].getInterestRate(), cdOfferings[i].getTerm());
+            index[i] = i;
+        }
+
+        for(int i = 0; i < cdOfferings.length; i++ ){
+            for(int j = i + 1; j < cdOfferings.length; j++){
+
+                if(offeringValues[i] > offeringValues[j]){
+                    tempDouble = offeringValues[i];
+                    offeringValues[i] = offeringValues[j];
+                    offeringValues[j] = tempDouble;
+
+                    tempInt = index[i];
+                    index[i] = index[j];
+                    index[j] = tempInt;
+                }
+            }
+        }
+
+        return cdOfferings[index[index.length - 2]];
     }
 
     public static void clearCDOfferings() {

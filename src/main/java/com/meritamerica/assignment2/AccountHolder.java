@@ -78,8 +78,7 @@ public class AccountHolder {
     //region CheckingAccount Methods
 
     public CheckingAccount addCheckingAccount(double openingBalance) {
-        if (this.getCheckingBalance() + this.getSavingsBalance() + openingBalance < 250000)
-        {
+        if (this.getCheckingBalance() + this.getSavingsBalance() + openingBalance < 250000) {
             CheckingAccount[] temp = new CheckingAccount[this.checkingAccounts.length + 1];
 
             for (int i = 0; i < this.checkingAccounts.length; i++) temp[i] = this.checkingAccounts[i];
@@ -216,11 +215,5 @@ public class AccountHolder {
 
     public double getCombinedBalance(){
         return this.getCheckingBalance() + this.getSavingsBalance() + this.getCDBalance();
-    }
-
-    // TODO: 3/4/2021 toString
-    public String toString() {
-        return "Name: " + this.firstName + " " + this.middleName + " " + this.lastName + "\n" +
-                "SSN: " + this.SSN + "\n";
     }
 }
