@@ -174,17 +174,14 @@ public class AccountHolder {
     //region CDAccount Methods
 
     public CDAccount addCDAccount(CDOffering cdOffering, int openingBalance) {
-        CDAccount[] temp = new CDAccount[this.cdAccounts.length + 1];
+        if (cdOffering == null) return null;
 
-        for (int i = 0; i < this.cdAccounts.length; i++) temp[i] = this.cdAccounts[i];
-
-        temp[temp.length - 1] = new CDAccount(cdOffering, openingBalance);
-        this.cdAccounts = temp;
-
-        return this.cdAccounts[this.cdAccounts.length - 1];
+        return this.addCDAccount(new CDAccount(cdOffering, openingBalance));
     }
 
     public CDAccount addCDAccount(CDAccount cdAccount) {
+        if (cdAccount == null) return null;
+
         CDAccount[] temp = new CDAccount[this.cdAccounts.length + 1];
 
         for (int i = 0; i < this.cdAccounts.length; i++) temp[i] = this.cdAccounts[i];

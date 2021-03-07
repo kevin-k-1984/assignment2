@@ -34,6 +34,7 @@ public class MeritBank {
 
         for (int i = 0; i < cdOfferings.length; i++){
             value = futureValue(depositAmount, cdOfferings[i].getInterestRate(), cdOfferings[i].getTerm());
+
             if (value > highestValue){
                 highestValue = value;
                 index = i;
@@ -44,7 +45,7 @@ public class MeritBank {
     }
 
     public static CDOffering getSecondBestCDOffering(double depositAmount){
-        if (cdOfferings.length <= 1) return null;
+        if (cdOfferings.length == 0) return null;
 
         double[] offeringValues = new double[cdOfferings.length];
         int[] index = new int[cdOfferings.length];
